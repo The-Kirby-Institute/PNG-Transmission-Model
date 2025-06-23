@@ -1,4 +1,3 @@
-### This is Bayesian Analysis codes - need to import the correct folder 
 from model.partial_functions import *
 from functools import partial
 import copy

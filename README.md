@@ -1,4 +1,4 @@
-# PNG-Transmission-Model
+# HIV transmission model for Papua New Guinea
 This repository contains a compartmental transmission model based on ordinary differential equations, developed to evaluate the impact of scaling up viral load and drug resistance testing in Papua New Guinea. The model also assesses the cost-effectiveness of these interventions.
 
 ## Model description 
@@ -23,6 +23,7 @@ PNG-TRANSMISSION-MODEL/
 Several open source data were used to calibrate this model. 
 1. [HIV estimates with uncertainty bounds 1990-Present](https://www.unaids.org/en/resources/documents/2024/HIV_estimates_with_uncertainty_bounds_1990-present). Treatment cascade estimates from UNAIDS were used. 
 2. [World Bank Open Data](https://data.worldbank.org). PNG population estimates and all-cause mortality were based on the Open data. 
+
 We thank UNAIDS and World Bank for their generosity in making important modelling datasets available for research and public use. 
 In addition, epidemiological estimates from PNG's literature and reports were also used. 
 ## Calibration
