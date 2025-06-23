@@ -397,7 +397,7 @@ plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_C
 # plt.ylim(0,0.17)
 # plt.yticks(np.arange(0, 0.17, 0.02))
 plt.grid(True)
-plt.legend(loc="upper right",prop={'size': 6})
+# plt.legend(loc="upper right",prop={'size': 6})
 plt.xlabel('Year')
 plt.ylabel('Incidence (per 1000 uninfected population)')
 

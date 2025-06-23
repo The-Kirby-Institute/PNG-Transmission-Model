@@ -7,6 +7,9 @@ The model reflects the time-varying effect of diagnosis and treatment scale-up o
 
 While primarily designed to evaluate the scale-up of viral load and drug resistance testing, the model can also be adapted to explore broader HIV epidemic trends and the impact of other interventions.
 ## Project organisation
+The project is organised as followed: 
+```bash
+
 PNG-TRANSMISSION-MODEL/
 ├── data/
 ├── model/
@@ -16,8 +19,14 @@ PNG-TRANSMISSION-MODEL/
 ├── projects/
 │   ├── script1.py
 │   └── script2.py
-└── Calibration.py
-└── README.md (optional)
+├── Calibration.py
+├── Chp2-Figures.py
+└── README.md
+
+```
+1. Calibration.py - This code contains the Baysesian calibration procedure. If you just want to reproduce the results, there is no need to re-run this calibration. We provided an Excel sheet with 1,000 posterior samples for that purpose. This code is provided for transparency of the Bayesian procedures.
+2. Chap2-Figures.py - To generate the figures for calibration to data of Chapter 2 in the thesis. 
+3. folder `projects` contain the analyses for the relevant Chapters 2 and 3 for Quang's PhD thesis
 
 ## Data sources
 Several open source data were used to calibrate this model. 
@@ -28,12 +37,14 @@ We thank UNAIDS and World Bank for their generosity in making important modellin
 In addition, epidemiological estimates from PNG's literature and reports were also used. 
 ## Calibration
 The model is calibrated using Bayesian methods, using the Python package [PyMC](https://www.pymc.io/welcome.html). The calibration process takes up about 20 hours on a Macbook Pro M1 16-inch with 32Gb of integrated memory. 
-To save your time in reproducing the results, an Excel sheet with 1,000 posterior samples were provided together with this model. `model priors.xlsx` in the `data/priors` folder 
+To save your time in reproducing the results, an Excel sheet with 1,000 posterior samples were provided together with this model. `Bayesian_posterior.xlsx` in the `data/posteriors` folder 
 ## Using the model. 
 After cloning this repository, several software packages are required to run this model:
 1. Python. It is preferable to install Anaconda Distribution which contains most of the scientific packages used in this model 
 2. The Python packages used in the model include: 
-`pymc >=20.0`, `numpy`, `scipy`, `matplotlib`
+`pymc >=20.0`, `numpy`, `scipy`, `matplotlib`, `pandas`
+
+If you only want to reproduce the results, there is no need to install the `pymc` package. 
 ## Citation
 Please cite Quang's PhD thesis for this repository. 
 
