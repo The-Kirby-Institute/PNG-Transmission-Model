@@ -15,16 +15,16 @@ PNG-TRANSMISSION-MODEL/
 ├── model/
 ├── output/
 │   ├── figures
-│   └── script2.py
+│   └── tables
 ├── projects/
-│   ├── script1.py
-│   └── script2.py
+│   ├── Chp2-Table1.py
+│   └── Chp2-Table2.py
 ├── Calibration.py
 ├── Chp2-Figures.py
 └── README.md
 
 ```
-1. Calibration.py - This code contains the Baysesian calibration procedure. If you just want to reproduce the results, there is no need to re-run this calibration. We provided an Excel sheet with 1,000 posterior samples for that purpose. This code is provided for transparency of the Bayesian procedures.
+1. Calibration.py - This code contains the Bayesian calibration procedure. If you just want to reproduce the results, there is no need to re-run this calibration. We provided an Excel sheet with 1,000 posterior samples for that purpose. This code is provided for transparency of the Bayesian procedures.
 2. Chap2-Figures.py - To generate the figures for calibration to data of Chapter 2 in the thesis. 
 3. folder `projects` contain the analyses for the relevant Chapters 2 and 3 for Quang's PhD thesis
 

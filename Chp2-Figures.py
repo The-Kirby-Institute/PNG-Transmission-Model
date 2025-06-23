@@ -399,9 +399,9 @@ plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_C
 plt.grid(True)
 # plt.legend(loc="upper right",prop={'size': 6})
 plt.xlabel('Year')
-plt.ylabel('Incidence (per 1000 uninfected population)')
+plt.ylabel('Adult (>15 yrs) incidence \n(per 1000 uninfected population)')
 
-plt.title('Adults (15+) Incidence (%) of HIV in PNG')
+# plt.title('Adults (15+) Incidence (%) of HIV in PNG')
 plt.savefig('output/figures/HIV incidence_adults_IQRsall.png', dpi=500)
 plt.show()
 
