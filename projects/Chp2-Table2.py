@@ -255,7 +255,6 @@ selected_column_names = [    'Total Number of PLHIV in PNG',
 
 ]
 
-# The suffixes you are interested in
 years_selected = ['2025', '2030']
 
 # Generate the new list with the full column names
