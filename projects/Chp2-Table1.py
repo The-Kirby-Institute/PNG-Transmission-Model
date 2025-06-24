@@ -370,6 +370,6 @@ combined_summary_df.loc['h2_samples'] = [calculate_range(fixed_h2_samples, as_pe
 ### remove eta1 from Table 1 - there is no direct link
 combined_summary_df = combined_summary_df.drop('eta_1_samples')
 
-output_file_path = os.path.join(result_path, "Table 1-Manuscript FINAL.xlsx")
+output_file_path = os.path.join(result_path, "Chapter 2 - Table 1.xlsx")
 combined_summary_df.to_excel(output_file_path, index=True)
 combined_summary_df
