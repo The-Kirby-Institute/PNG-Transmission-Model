@@ -6,9 +6,13 @@ mode = "actual"
 # DR_testing_scenario = "Baseline"
 
 import json
+import os
 
 def get_config():
-    with open('model/config.json', 'r') as file:
+    # Get the directory where this file is located
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(base_dir, 'config.json')
+    with open(config_path, 'r') as file:
         return json.load(file)
 
 config = get_config()

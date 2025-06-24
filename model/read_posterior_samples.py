@@ -1,10 +1,18 @@
 import pandas as pd
 from model.core_scenarios import *
+import os 
+
+# Get the path to the main directory
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # Read in the Excel file
 if running_mode == "Study_3":
-    df = pd.read_excel('data/posteriors/Bayesian_posterior_Chap3.xlsx', sheet_name='Sheet1')
+    file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior_Chap3.xlsx')
 else:
-    df = pd.read_excel('data/posteriors/Bayesian_posterior.xlsx', sheet_name='Sheet1')
+    file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior.xlsx')
+
+# Read the Excel file
+df = pd.read_excel(file_path, sheet_name='Sheet1')
 
 theta_samples = df['theta_samples']
 beta_u_samples =df['beta_u_samples']
