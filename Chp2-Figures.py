@@ -14,8 +14,6 @@ def update_config(Monitoring_Type, scenario, DR_testing_scenario,treatment,runni
 
 ##### Set up the Baseline reference condition for Bayesian model - Continuous running mode for Bayesian time-varying functions
 ##### These time-varying functions implement the various interventions/ trends that happened in HIV epidemics in PNG
-##### Continuous functions gave smooth/continuous implement for these trends
-##### While discrete functions are binary/boolean functions that have sharper - but more precise- change
 update_config("Routine", "2", "Baseline", "WithDolutegravir", "Continuous", "Inference",60,60)
 
 
@@ -60,9 +58,6 @@ def setCorrectxAxis(frame, frequency_ticks =5,starting_position=0):
 
 
 
-
-excel_path = 'Bayesian Pictures/Bayesian_posterior.xlsx' 
-parameter_name = 'theta_samples' 
 
 
 
