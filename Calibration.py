@@ -400,14 +400,14 @@ with model:
     trace = pm.sample(draws=250, tune=250, step=pm.NUTS(), chains=4, cores=4)
     # trace = pm.sample(draws=250, tune=250, step=pm.NUTS(), chains=2, cores=4, progressbar=True)
 
-# Plot the trace plots
-az.plot_trace(trace)
-plt.savefig('output/figures/Trace_plot.png', dpi=500)
-plt.show()
+# # Plot the trace plots
+# az.plot_trace(trace)
+# plt.savefig('output/figures/Trace_plot.png', dpi=500)
+# plt.show()
 
 
 results = az.summary(trace)
-results.to_excel("output/figures/Bayesian_parameter(results).xlsx")
+results.to_excel("output/diagnostics/Bayesian_parameter(results).xlsx")
 
 
 
@@ -455,7 +455,7 @@ az.plot_forest(trace.posterior, r_hat=True)
 
 # plot the posterior distributions of the model parameters using Arviz:
 az.plot_posterior(trace.posterior)
-plt.savefig('output/figures/Posterior_plot.png', dpi=500)
+plt.savefig('output/diagnostics/Posterior_plot.png', dpi=500)
 
 plt.show()
 
@@ -484,16 +484,16 @@ print(f"Number of Divergences: {len(divergences)}")
 
 #Analyzing Divergences
 pm.plot_pair(trace, divergences=True)
-plt.savefig('output/figures/Pair Plot for Divergence.png')
+plt.savefig('output/diagnostics/Pair Plot for Divergence.png')
 plt.show()
 
 
 az.plot_trace(trace, divergences="top")
-plt.savefig('output/figures/Trace plot (top) - divergence.png')
+plt.savefig('output/diagnostics/Trace plot (top) - divergence.png')
 plt.show()
 
 az.plot_energy(trace)
-plt.savefig('output/figures/Energy transition diagram.png')
+plt.savefig('output/diagnostics/Energy transition diagram.png')
 plt.show()
 
 # Calculate ESS
