@@ -12,6 +12,9 @@ from scipy.stats import beta as beta_dist
 random_seed = 123
 from scipy.stats import norm, truncnorm 
 
+import os
+# Define base path as the parent directory of the current script
+base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 no_of_samples = 400
 
@@ -20,11 +23,13 @@ import random
 np.random.seed(334)
 random.seed(334)
 
-#### Load the priors distribution parameters from the Excel file 
-with open('model/prior_path.json') as json_file:
+#### Load the priors distribution parameters from the Excel file
+with open(os.path.join(base_path, 'model', 'prior_path.json')) as json_file:
     prior_path = json.load(json_file)
 
-excel_path = prior_path['excel_path']
+# excel_path = prior_path['excel_path']
+excel_rel_path = prior_path['excel_path']
+excel_path = os.path.join(base_path, excel_rel_path)
 df = pd.read_excel(excel_path, sheet_name='Sheet1')
 
 # ##### Read the summary pandas dataframessss

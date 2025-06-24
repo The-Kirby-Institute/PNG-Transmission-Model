@@ -11,10 +11,15 @@ import pandas as pd
 import math
 import numpy as np
 import re
+import os 
+# Define base path as the parent directory of the current script
+base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 pd.options.display.float_format = '{:.0f}'.format
 
-xls = pd.ExcelFile('Data/All_clinics_data.xlsx')
+# xls = pd.ExcelFile('Data/All_clinics_data.xlsx')
+xls = pd.ExcelFile(os.path.join(base_path, 'Data', 'All_clinics_data.xlsx'))
+
 
 
 dat_estimates = pd.read_excel(xls, 'HIV Estimates (records)')
@@ -124,7 +129,8 @@ dat_resistance = dat_resistance[3:]
 
 ##### New UNAIDS SPECTRUM updated in 2022 
 
-xls = pd.ExcelFile('Data/Spectrum 2024/Extraction data_July22nd2024.xlsx')
+# xls = pd.ExcelFile('Data/Spectrum 2024/Extraction data_July22nd2024.xlsx')
+xls = pd.ExcelFile(os.path.join(base_path, 'Data','Spectrum 2024', 'Extraction data_July22nd2024.xlsx'))
 
 
 dat_estimates_2023 = pd.read_excel(xls, 'Estimates')
@@ -220,7 +226,8 @@ dat_depraciated_2022 = dat_depraciated_2022[1:]
 
 
 ### Corrected population of children 0-14 years old 
-xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls')
+# xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls')
+xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls'))
 
 
 dat_population_14 = pd.read_excel(xls, 'Data')
@@ -233,7 +240,8 @@ dat_population_14.index = dat_population_14.index.map(int)
 
 
 ### Updated population dataset from 2023 - corrected 
-xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls')
+# xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls')
+xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls'))
 
 
 dat_population_2023 = pd.read_excel(xls, 'Data')
