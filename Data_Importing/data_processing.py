@@ -84,47 +84,6 @@ dat_resistance = dat_resistance[3:]
 
 
 
-# dat_key = pd.read_excel(xls, 'Key populations statistics')
-# dat_key.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900,'Year ':1990},inplace=True)
-
-# dat_key['Variable'] = dat_key['Variable'].fillna('Name')
-# n = dat_key['Variable'][(dat_key['Variable'] == 'Name')].count()
-
-# dat_key = dat_key.transpose()
-# dat_key.columns = dat_key.iloc[0] 
-# dat_key = dat_key[1:]
-
-
-
-
-
-
-
-# dat_program = pd.read_excel(xls, 'Program-related parameters')
-# dat_program.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900,'Year ':1990},inplace=True)
-
-
-# dat_program['Variable'] = dat_program['Variable'].fillna('Name')
-# n = dat_program['Variable'][(dat_program['Variable'] == 'Name')].count()
-
-# l1 = ['Missing']*n
-# l2 = list( range(1,n+1))
-# l2 =  [str(x) for x in l2]
-
-# new_column_names = [i + j for i, j in zip(l1, l2)]
-
-# dat_program.loc[(dat_program['Variable'] == 'Name'),'Variable'] = new_column_names
-
-
-# dat_program = dat_program.transpose()
-# dat_program.columns = dat_program.iloc[0] 
-# dat_program = dat_program[1:]
-
-
-
-
-
-
 
 
 ##### New UNAIDS SPECTRUM updated in 2022 
