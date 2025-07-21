@@ -69,7 +69,7 @@ def calculate_range(samples, as_percentage=False):
 
 # Load data
 # Build full path to the Excel file
-posterior_path = os.path.join(base_path, 'data', 'posteriors', 'Bayesian_posterior.xlsx')
+posterior_path = os.path.join(base_path, 'data', 'posteriors', 'Bayesian_posterior-recalibrate.xlsx')
 
 df = pd.read_excel(posterior_path, sheet_name='Sheet1')
 

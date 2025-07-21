@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats 
+import matplotlib.image as mpimg
 
 from model.Model_init import *
 from scipy.stats import gaussian_kde
@@ -159,11 +160,11 @@ higher_CI[higher_CI =="<500"] = 0
 
 
 scatter_points = scatter_points["Estimated adults (15+) living with HIV"].tolist()
-scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
+# scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
 lower_CI = lower_CI["Missing19"].tolist()
-lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
+# lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
 higher_CI = higher_CI["Missing20"].tolist()
-higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
+# higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
 
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
@@ -803,11 +804,11 @@ higher_CI[higher_CI =="<500"] = 0
 
 
 scatter_points = scatter_points["Estimated adults (15+) living with HIV"].tolist()
-scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
+# scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
 lower_CI = lower_CI["Missing19"].tolist()
-lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
+# lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
 higher_CI = higher_CI["Missing20"].tolist()
-higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
+# higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
 
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI)).tolist()
@@ -994,5 +995,49 @@ plt.show()
 
 
 
+
+
+
+
+
+listB = [
+
+        "output/figures/HIV prevalence (with CIs)_adults15+_IQR_all(production).png",
+        "output/figures/Incidence in PNG (adults)_with IQR range_all(production).png",
+
+        "output/figures/Aware of HIV (adults)_IRQ all(production).png",
+
+        "output/figures/DR prevalence in Treatment-naive PLHIV_including IQR range_all(production).png",
+        # "output/figures/Viral Suppression inPNG_IQR range_all(production).png",
+        "output/figures/Third Goal UNAIDS(production).png",
+        "output/figures/on ART (adults)_IQR all(production).png"
+        ]
+
+img_list = [mpimg.imread(filename) for filename in listB]
+
+# Create a 4x3 grid for displaying the images:
+fig, axes = plt.subplots(2, 3, figsize=(20,10))
+
+for ax, img, title in zip(axes.ravel(), img_list, listB):
+    ax.imshow(img)
+    ax.axis('off')
+# Add vertical lines to separate the 3 columns
+for ax in axes[:, 0]:
+    ax.axvline(x=ax.get_xlim()[1], color='black', linewidth=3, linestyle='--')  # Line between first and second column
+for ax in axes[:, 1]:
+    ax.axvline(x=ax.get_xlim()[1], color='black', linewidth=3, linestyle='--')  # Line between second and third column
+
+# Add horizontal lines to separate the 2 rows
+for ax in axes[0, :]:
+    ax.axhline(y=ax.get_ylim()[0], color='black', linewidth=3, linestyle='--')  # Line between first and second row
+
+# Add text annotations for labels within each subplot
+labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+for i, ax in enumerate(axes.ravel()):
+    ax.text(0.5, 0.95, labels[i], transform=ax.transAxes, fontsize=16, ha='center')
+
+plt.tight_layout(h_pad = -0.5)  # Added vertical padding between subplots
+plt.savefig('output/figures/Combined_Display Figure 1.png', dpi=500)  # Save the figure with high dpi
+plt.show()
 
 

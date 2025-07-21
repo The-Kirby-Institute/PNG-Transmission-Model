@@ -166,7 +166,7 @@ mcmc_ode = DifferentialEquation(
 ############ prepare for the Bayesian model calibration.
 #### Extract out data from Spectrum, prepare for processing of the Bayesian model data points. 
 TotalPLHIV_2023 = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Estimated adults (15+) living with HIV']]
-TotalPLHIV_2023['Estimated adults (15+) living with HIV'] = TotalPLHIV_2023['Estimated adults (15+) living with HIV'].astype(str).str.replace(" ", "").astype(int)
+# TotalPLHIV_2023['Estimated adults (15+) living with HIV'] = TotalPLHIV_2023['Estimated adults (15+) living with HIV'].astype(str).str.replace(" ", "").astype(int)
 
 onTreatment_2023 = dat_testntreat_2023.loc[dat_testntreat_2023.index[dat_testntreat_2023.index >= starting_epidemic_year],['Missing80']]
 onTreatment_2023 = onTreatment_2023.rename(columns={'Missing80': 'Number of PLHIV on ART (Adults, ages 15+)'})
@@ -187,7 +187,7 @@ deaths_2023 = deaths_2023[-6:]
 #### Updated UNAIDS data for people living with HIV in PNG
 observed_data = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Estimated adults (15+) living with HIV']]
 observed_data = observed_data["Estimated adults (15+) living with HIV"].tolist()
-observed_data = [item for item in observed_data if isinstance(item,int)] + [int(item.replace(" ",""))  for item in observed_data if isinstance(item,str)]
+# observed_data = [item for item in observed_data if isinstance(item,int)] + [int(item.replace(" ",""))  for item in observed_data if isinstance(item,str)]
 len_prevalence = len(observed_data)
 
 
@@ -231,7 +231,7 @@ observed_data = observed_data + newinfections_2023
 observed_data = observed_data + deaths_2023
 
 #### adding the total population in PNG in 2022 as calibration target
-observed_data = observed_data + [corrected_population['Total_Pop'][2022]]
+observed_data = observed_data + [corrected_population['Total_Pop'][2023]]
 
 ### new prevalence updates, based on the reported prevalence (literature, reports) in PNG
 plhiv94_23 = TotalPLHIV_2023['Estimated adults (15+) living with HIV']
@@ -343,7 +343,7 @@ with pm.Model() as model:
 
 
     ##### Declare tensor variables, according to correct years of DR prevalence. From beginning start_epideimc_year to 2022
-    tensor_a = (mcmc_curves[:,16])[0:(adj+23+1)]
+    tensor_a = (mcmc_curves[:,16])[0:(adj+24+1)]
     ##### Levels of pre-treatment DR in 2017
     tensor_b = (mcmc_curves[:,2]+mcmc_curves[:,4])[adj+17]
     ##### Levels of viral suppression from 2018 to 2021
@@ -356,24 +356,24 @@ with pm.Model() as model:
     diagnosis = mcmc_curves[:,3] + mcmc_curves[:,4] + treatments
 
     ##### Declare tensor variables, according to correct years of Diagnoses and treatments. From 2019 for treatments and 2010 for diagnoses - UNAIDS data
-    tensor_e = diagnosis[(adj+19):(adj+23+1)]
-    tensor_f = treatments[(adj+10):(adj+23+1)]
+    tensor_e = diagnosis[(adj+19):(adj+24+1)]
+    tensor_f = treatments[(adj+10):(adj+24+1)]
 
     ####declare tensor gradient for new infections in the modelling now
     modelled_cum_infs = mcmc_curves[:,14]
     modelled_infections =  modelled_cum_infs[1:] - modelled_cum_infs[:-1]
-    ### the calibration target was removed of 1 element at the start so no need to add 1 to adj+23
-    tensor_g = modelled_infections[0:(adj+23)]
+    ### the calibration target was removed of 1 element at the start so no need to add 1 to adj+24
+    tensor_g = modelled_infections[0:(adj+24)]
 
 
     ####declare tensor gradient for mortality of AIDS-related deaths in the modelling now 
     modelled_cum_dths = mcmc_curves[:,15]
     modelled_deaths = modelled_cum_dths[1:] - modelled_cum_dths[:-1]
-    #### Last 6 years of mortality estimates will be from 2018 (need to subtract 1- because of the tensor issue) up to 2023
-    tensor_h = modelled_deaths[(adj+18 - 1): (adj+23)]
+    #### Last 6 years of mortality estimates will be from 2019 (need to subtract 1- because of the tensor issue) up to 2023
+    tensor_h = modelled_deaths[(adj+19 - 1): (adj+24)]
     
     ##### Add the tensor for population calibration in the model 
-    tensor_i = (mcmc_curves[:,0]+mcmc_curves[:,16])[adj+22]
+    tensor_i = (mcmc_curves[:,0]+mcmc_curves[:,16])[adj+23]
 
     tensor_a_flattened = pt.flatten(tensor_a)
     tensor_b_flattened = pt.flatten(tensor_b)
