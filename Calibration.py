@@ -239,14 +239,16 @@ prevalence_fix = plhiv94_23 / corrected_population['Total_Pop'][starting_epidemi
 
 #### calculate the number of people living with HIV based on the reported prevalence data, to prepare data for the calibration
 report_prevalence = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]['ACTUAL prevalence of HIV in reports']
-pop_size = corrected_population.loc[1994:2022, 'Total_Pop']
+pop_size = corrected_population.loc[1994:2024, 'Total_Pop']
 report_plhiv = report_prevalence.astype(float)/100 * pop_size.astype(float)
 report_prev_fix = report_plhiv / corrected_population['Total_Pop'][starting_epidemic_year]
 
 ### fill in values that are non-empty from report_prevalence
-prevalence_fix_updated = prevalence_fix.combine_first(report_prev_fix)
+prevalence_fix_updated = prevalence_fix.copy()
+prevalence_fix_updated[report_prev_fix.notna()] = report_prev_fix[report_prev_fix.notna()]
+# prevalence_fix_updated = prevalence_fix.combine_first(report_prev_fix)
 prevalence_fix_updated = prevalence_fix_updated.tolist()
-n = len(prevalence_fix_updated)  # Or choose a smaller number if you only want to replace a part of it
+n = len(prevalence_fix_updated)  
 
 
 observed_data = [i/corrected_population['Total_Pop'][starting_epidemic_year] for i in observed_data]
