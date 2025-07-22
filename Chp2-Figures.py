@@ -815,7 +815,7 @@ lower_CI = np.subtract(scatter_points, np.asarray(lower_CI)).tolist()
 higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points)).tolist()
 
 ### divide by the number of adults greater than 15 years old 
-df2 = corrected_population.loc[1990:]['Total_Pop'].tolist()
+df2 = corrected_population.loc[starting_epidemic_year:]['Total_Pop'].tolist()
 scatter_points = [a/b*100 for a,b in zip(scatter_points,df2)]
 lower_CI = [a/b*100 for a,b in zip(lower_CI,df2)]
 higher_CI = [a/b*100 for a,b in zip(higher_CI,df2)]
