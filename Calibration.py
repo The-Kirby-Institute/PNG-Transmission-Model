@@ -262,10 +262,10 @@ observed_data[:n] = prevalence_fix_updated[:n]
 ####### These are the weights of the data points, which are used in the Bayesian model calibration
 ####### The weights are used to indicate the importance of each data point in the calibration process.
 
-# ### weights for UNAIDS as the best estimates 
-# revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
-# revised_weights_prevalence[adj+2] = 4000
-# revised_weights_prevalence[-1] = 8800
+### weights for UNAIDS as the best estimates 
+revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
+revised_weights_prevalence[adj+2] = 4000
+revised_weights_prevalence[-1] = 8800
 
 #### weights for balancing between historical and UNAIDS
 # revised_weights_prevalence = [
@@ -276,13 +276,13 @@ observed_data[:n] = prevalence_fix_updated[:n]
 # revised_weights_prevalence[-1] = 4000
 
 
-#### more weights on historical data
-revised_weights_prevalence = [
-    1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
-    for i in range(len_prevalence)
-]
-revised_weights_prevalence[adj+2] = 500
-revised_weights_prevalence[-1] = 1000
+# #### more weights on historical data
+# revised_weights_prevalence = [
+#     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+#     for i in range(len_prevalence)
+# ]
+# revised_weights_prevalence[adj+2] = 500
+# revised_weights_prevalence[-1] = 1000
 
 
 
