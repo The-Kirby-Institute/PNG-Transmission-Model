@@ -267,13 +267,23 @@ observed_data[:n] = prevalence_fix_updated[:n]
 # revised_weights_prevalence[adj+2] = 4000
 # revised_weights_prevalence[-1] = 8800
 
-#### weights for balancing between empirical and UNAIDS
+#### weights for balancing between historical and UNAIDS
+# revised_weights_prevalence = [
+#     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+#     for i in range(len_prevalence)
+# ]
+# revised_weights_prevalence[adj+2] = 1500
+# revised_weights_prevalence[-1] = 4000
+
+
+#### more weights on historical data
 revised_weights_prevalence = [
     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
     for i in range(len_prevalence)
 ]
-revised_weights_prevalence[adj+2] = 1500
-revised_weights_prevalence[-1] = 4000
+revised_weights_prevalence[adj+2] = 500
+revised_weights_prevalence[-1] = 1000
+
 
 
 # ## Modelling weights used in the model 
