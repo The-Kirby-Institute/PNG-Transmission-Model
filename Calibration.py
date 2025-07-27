@@ -262,10 +262,10 @@ observed_data[:n] = prevalence_fix_updated[:n]
 ####### These are the weights of the data points, which are used in the Bayesian model calibration
 ####### The weights are used to indicate the importance of each data point in the calibration process.
 
-### weights for UNAIDS as the best estimates 
-revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
-revised_weights_prevalence[adj+2] = 4000
-revised_weights_prevalence[-1] = 8800
+# ### weights for UNAIDS as the best estimates 
+# revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
+# revised_weights_prevalence[adj+2] = 4000
+# revised_weights_prevalence[-1] = 8800
 
 #### weights for balancing between historical and UNAIDS
 # revised_weights_prevalence = [
@@ -285,6 +285,18 @@ revised_weights_prevalence[-1] = 8800
 # revised_weights_prevalence[-1] = 1000
 
 
+#### more weights on historical data
+revised_weights_prevalence = [
+    1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+    for i in range(len_prevalence)
+]
+revised_weights_prevalence[adj+2] = 500
+revised_weights_prevalence[-5] = 1000
+revised_weights_prevalence[-7] = 1000
+revised_weights_prevalence[-8] = 1000
+
+
+
 
 # ## Modelling weights used in the model 
 ### weights for viral suppression levels 
@@ -298,8 +310,8 @@ mortalityweights[-1] = 4200
 
 weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [1 if i < len(All_Diagnoses) - 1 else 2400 for i in range(len(All_Diagnoses) )]  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
 
-# ##### less weights across the data 
-# weights = [x / 20 for x in weights]
+##### less weights across the data 
+weights = [x / 20 for x in weights]
 
 
 # Print the current time indicating that the PyMC code is starting
