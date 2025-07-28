@@ -310,8 +310,8 @@ mortalityweights[-1] = 4200
 
 weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [1 if i < len(All_Diagnoses) - 1 else 2400 for i in range(len(All_Diagnoses) )]  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
 
-##### less weights across the data 
-weights = [x / 20 for x in weights]
+# ##### less weights across the data 
+# weights = [x / 20 for x in weights]
 
 
 # Print the current time indicating that the PyMC code is starting
