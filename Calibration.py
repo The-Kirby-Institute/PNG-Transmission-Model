@@ -308,7 +308,7 @@ newinfectionsweights = [1 if i < len(newinfections_2023) - 1 else 4200 for i in 
 mortalityweights = [1200]*len(deaths_2023)
 mortalityweights[-1] = 4200
 
-weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [1 if i < len(All_Diagnoses) - 3 else 2400 for i in range(len(All_Diagnoses) )]  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
+weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [500]*len(All_Diagnoses)  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
 
 # ##### less weights across the data 
 # weights = [x / 20 for x in weights]
