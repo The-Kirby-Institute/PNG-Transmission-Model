@@ -14,7 +14,7 @@ beta_r = partial(Richardsfunc,a = 0)
 ###### New diagnosis rate 
 #### UNAIDS 2024 decided to remove the historial 2019 data point. 
 #### Diagnoses are thought to be started much later now 
-b = partial(Richards_scaleupfunc,a=-0.01,q=13)
+b = partial(Richards_scaleupfunc,a=-0.01,q=10)
 
 
 
