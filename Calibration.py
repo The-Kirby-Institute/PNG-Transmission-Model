@@ -269,8 +269,8 @@ observed_data[:n] = prevalence_fix_updated[:n]
 
 ### weights for UNAIDS as the best estimates - second round
 revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
-revised_weights_prevalence[adj+2] = 3000
-revised_weights_prevalence[-1] = 6000
+revised_weights_prevalence[adj+2] = 2000
+revised_weights_prevalence[-1] = 5000
 
 
 #### weights for balancing between historical and UNAIDS
@@ -308,10 +308,10 @@ revised_weights_prevalence[-1] = 6000
 ### weights for viral suppression levels 
 VLweights = [1 if i < len(VLSuppression) - 1 else 2500 for i in range(len(VLSuppression) )]
 VLweights[0] = 2500
-# Treatmentweights = [1 if i < len(All_Treatments) - 1 else 2900 for i in range(len(All_Treatments) )] 
-# Treatmentweights[0] = 2900
+Treatmentweights = [1 if i < len(All_Treatments) - 1 else 2900 for i in range(len(All_Treatments) )] 
+Treatmentweights[0] = 2500
 ### replace the weights across all points
-Treatmentweights = [200]*len(All_Treatments)
+# Treatmentweights = [200]*len(All_Treatments)
 
 newinfectionsweights = [1 if i < len(newinfections_2023) - 1 else 4200 for i in range(len(newinfections_2023) )] 
 mortalityweights = [1200]*len(deaths_2023)
