@@ -230,7 +230,7 @@ observed_data = observed_data + newinfections_2023
 ### adding the mortality targets for calibration in the modelling 
 observed_data = observed_data + deaths_2023
 
-#### adding the total population in PNG in 2022 as calibration target
+#### adding the total population in PNG in 2023 as calibration target
 observed_data = observed_data + [corrected_population['Total_Pop'][2023]]
 
 ### new prevalence updates, based on the reported prevalence (literature, reports) in PNG
@@ -245,6 +245,7 @@ report_prev_fix = report_plhiv / corrected_population['Total_Pop'][starting_epid
 
 ### fill in values that are non-empty from report_prevalence
 prevalence_fix_updated = prevalence_fix.copy()
+## update the data for prevalence in modelling using clinical
 prevalence_fix_updated[report_prev_fix.notna()] = report_prev_fix[report_prev_fix.notna()]
 # prevalence_fix_updated = prevalence_fix.combine_first(report_prev_fix)
 prevalence_fix_updated = prevalence_fix_updated.tolist()
@@ -253,8 +254,8 @@ n = len(prevalence_fix_updated)
 
 observed_data = [i/corrected_population['Total_Pop'][starting_epidemic_year] for i in observed_data]
 
-### replace the prevalence (fixed), after adding the actual data into it
-observed_data[:n] = prevalence_fix_updated[:n]
+# ### replace the prevalence (fixed), after adding the actual data into it
+# observed_data[:n] = prevalence_fix_updated[:n]
 
 #################################################################################### 
 
