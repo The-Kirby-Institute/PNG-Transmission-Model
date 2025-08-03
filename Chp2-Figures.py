@@ -1037,7 +1037,7 @@ for i, ax in enumerate(axes.ravel()):
     ax.text(0.5, 0.95, labels[i], transform=ax.transAxes, fontsize=16, ha='center')
 
 plt.tight_layout(h_pad = -0.5)  # Added vertical padding between subplots
-plt.savefig('output/figures/Combined_Display Figure 1.png', dpi=500)  # Save the figure with high dpi
+plt.savefig('output/figures/Combined_Display_Figure_1.png', dpi=500)  # Save the figure with high dpi
 plt.show()
 
 

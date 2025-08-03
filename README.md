@@ -27,6 +27,9 @@ PNG-TRANSMISSION-MODEL/
 1. Calibration.py - This code contains the Bayesian calibration procedure. If you just want to reproduce the results, there is no need to re-run this calibration. We provided an Excel sheet with 1,000 posterior samples for that purpose. This code is provided for transparency of the Bayesian procedures.
 2. Chap2-Figures.py - To generate the figures for calibration to data of Chapter 2 in the thesis. 
 3. folder `projects` contain the analyses for the relevant Chapters 2 and 3 for Quang's PhD thesis
+4. (IMPORTANT!) folder `output/figures` contains all the calibration graphs that are most relevant to understand this model and the HIV epidemic in Papua New Guinea
+
+![HIV prevalence in PNG](output/figures/Combined_Display_Figure_1.png)
 
 ## Data sources
 Several open source data were used to calibrate this model. 
