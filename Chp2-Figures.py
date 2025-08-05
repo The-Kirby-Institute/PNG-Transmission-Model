@@ -615,6 +615,27 @@ higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
 
 
 x_values_scatters = list(range(0,len(scatter_points)))
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2, c = "black",ecolor ="black",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2025")
+
+
+### Updated UNAIDS/ SPECTRUM estimates in 2024
+scatter_points = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Adults (15+) newly infected with HIV']]
+lower_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing31']]
+higher_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing32']]
+
+scatter_points[scatter_points =="<500"] = np.nan
+lower_CI[lower_CI =="<500"] = np.nan
+higher_CI[higher_CI =="<500"] = np.nan
+lower_CI[lower_CI =="<200"] = np.nan
+higher_CI[higher_CI =="<200"] = np.nan
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+
+
+
+x_values_scatters = list(range(0,len(scatter_points)))
 plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2, c = "#0F52BA",ecolor ="#0F52BA",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2024")
 
 
@@ -694,10 +715,31 @@ plt.show()
 
 setCorrectxAxis(actual_population,5,1)
 
-#### Updated UNAIDS/ SPECTRUM estimates in the 2022 
+#### Updated UNAIDS/ SPECTRUM estimates 
 scatter_points = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Adults (15-49) prevalence (%)']]
 lower_CI = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Missing3']]
 higher_CI = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Missing4']]
+
+scatter_points[scatter_points =="<0.1"] = np.nan
+lower_CI[lower_CI =="<0.1"] = np.nan
+higher_CI[higher_CI =="<0.1"] = np.nan
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+
+
+x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'Adults (15-49) prevalence',c="yellow")
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2,c = "black",ecolor ="black",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2025")
+########
+
+
+
+#### Updated UNAIDS/ SPECTRUM estimates outdated 2024 
+scatter_points = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Adults (15-49) prevalence (%)']]
+lower_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing3']]
+higher_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing4']]
 
 scatter_points[scatter_points =="<0.1"] = np.nan
 lower_CI[lower_CI =="<0.1"] = np.nan
@@ -715,7 +757,7 @@ plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_C
 
 scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
 x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'PNG National  estimate',c="#DC143C")
+plt.scatter(x_values_scatters,scatter_points, label = 'PNG Historical Data',c="#DC143C")
 
 
 
@@ -766,7 +808,7 @@ plt.grid(True)
 # plt.ylim(0,1.5)
 plt.yticks(np.arange(0, 2.2, 0.2))
 plt.legend(loc="upper left",prop={'size': 8})
-plt.savefig('output/figures/UNAIDS HIV prevalence to itself.png', dpi=500)
+plt.savefig('output/figures/UNAIDS_HIV_prevalence_to_itself.png', dpi=500)
 plt.show()
 
 

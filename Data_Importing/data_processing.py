@@ -144,6 +144,27 @@ dat_testntreat_2023 = dat_testntreat_2023[1:]
 
 ######## old data extraction from previous years of UNAIDS estimates
 
+
+
+dat_depraciated_2024 = pd.read_excel(xls, 'Estimates-2024')
+dat_depraciated_2024.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900},inplace=True)
+
+dat_depraciated_2024['Variable'] = dat_depraciated_2024['Variable'].fillna('Name')
+n = dat_depraciated_2024['Variable'][(dat_depraciated_2024['Variable'] == 'Name')].count()
+
+l1 = ['Missing']*n
+l2 = list( range(1,n+1))
+l2 =  [str(x) for x in l2]
+
+new_column_names = [i + j for i, j in zip(l1, l2)]
+
+dat_depraciated_2024.loc[dat_depraciated_2024['Variable'] == 'Name', 'Variable'] = new_column_names
+
+dat_depraciated_2024 = dat_depraciated_2024.transpose()
+dat_depraciated_2024.columns = dat_depraciated_2024.iloc[0] 
+dat_depraciated_2024 = dat_depraciated_2024[1:]
+
+
 dat_depraciated_2023 = pd.read_excel(xls, 'Estimates-2023')
 dat_depraciated_2023.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900},inplace=True)
 
