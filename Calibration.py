@@ -166,7 +166,7 @@ mcmc_ode = DifferentialEquation(
 ############ prepare for the Bayesian model calibration.
 #### Extract out data from Spectrum, prepare for processing of the Bayesian model data points. 
 TotalPLHIV_2023 = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Estimated adults (15+) living with HIV']]
-TotalPLHIV_2023['Estimated adults (15+) living with HIV'] = TotalPLHIV_2023['Estimated adults (15+) living with HIV'].astype(str).str.replace(" ", "").astype(int)
+# TotalPLHIV_2023['Estimated adults (15+) living with HIV'] = TotalPLHIV_2023['Estimated adults (15+) living with HIV'].astype(str).str.replace(" ", "").astype(int)
 
 onTreatment_2023 = dat_testntreat_2023.loc[dat_testntreat_2023.index[dat_testntreat_2023.index >= starting_epidemic_year],['Missing80']]
 onTreatment_2023 = onTreatment_2023.rename(columns={'Missing80': 'Number of PLHIV on ART (Adults, ages 15+)'})
@@ -187,7 +187,7 @@ deaths_2023 = deaths_2023[-6:]
 #### Updated UNAIDS data for people living with HIV in PNG
 observed_data = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Estimated adults (15+) living with HIV']]
 observed_data = observed_data["Estimated adults (15+) living with HIV"].tolist()
-observed_data = [item for item in observed_data if isinstance(item,int)] + [int(item.replace(" ",""))  for item in observed_data if isinstance(item,str)]
+# observed_data = [item for item in observed_data if isinstance(item,int)] + [int(item.replace(" ",""))  for item in observed_data if isinstance(item,str)]
 len_prevalence = len(observed_data)
 
 
@@ -230,8 +230,8 @@ observed_data = observed_data + newinfections_2023
 ### adding the mortality targets for calibration in the modelling 
 observed_data = observed_data + deaths_2023
 
-#### adding the total population in PNG in 2022 as calibration target
-observed_data = observed_data + [corrected_population['Total_Pop'][2022]]
+#### adding the total population in PNG in 2023 as calibration target
+observed_data = observed_data + [corrected_population['Total_Pop'][2023]]
 
 ### new prevalence updates, based on the reported prevalence (literature, reports) in PNG
 plhiv94_23 = TotalPLHIV_2023['Estimated adults (15+) living with HIV']
@@ -239,42 +239,89 @@ prevalence_fix = plhiv94_23 / corrected_population['Total_Pop'][starting_epidemi
 
 #### calculate the number of people living with HIV based on the reported prevalence data, to prepare data for the calibration
 report_prevalence = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]['ACTUAL prevalence of HIV in reports']
-pop_size = corrected_population.loc[1994:2022, 'Total_Pop']
+pop_size = corrected_population.loc[1994:2024, 'Total_Pop']
 report_plhiv = report_prevalence.astype(float)/100 * pop_size.astype(float)
 report_prev_fix = report_plhiv / corrected_population['Total_Pop'][starting_epidemic_year]
 
 ### fill in values that are non-empty from report_prevalence
-prevalence_fix_updated = prevalence_fix.combine_first(report_prev_fix)
+prevalence_fix_updated = prevalence_fix.copy()
+## update the data for prevalence in modelling using clinical
+prevalence_fix_updated[report_prev_fix.notna()] = report_prev_fix[report_prev_fix.notna()]
+# prevalence_fix_updated = prevalence_fix.combine_first(report_prev_fix)
 prevalence_fix_updated = prevalence_fix_updated.tolist()
-n = len(prevalence_fix_updated)  # Or choose a smaller number if you only want to replace a part of it
+n = len(prevalence_fix_updated)  
 
 
 observed_data = [i/corrected_population['Total_Pop'][starting_epidemic_year] for i in observed_data]
 
-### replace the prevalence (fixed), after adding the actual data into it
-observed_data[:n] = prevalence_fix_updated[:n]
+# ### replace the prevalence (fixed), after adding the actual data into it
+# observed_data[:n] = prevalence_fix_updated[:n]
 
 #################################################################################### 
 
 
 ####### These are the weights of the data points, which are used in the Bayesian model calibration
 ####### The weights are used to indicate the importance of each data point in the calibration process.
-## new weights for July 13th 2023
 
+# ### weights for UNAIDS as the best estimates 
+# revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
+# revised_weights_prevalence[adj+2] = 4000
+# revised_weights_prevalence[-1] = 8800
+
+### weights for UNAIDS as the best estimates - second round
 revised_weights_prevalence = [1 if i < len_prevalence - 6 else  4**(i - len_prevalence + 7) for i in range(len_prevalence)] 
-revised_weights_prevalence[adj+2] = 4000
-revised_weights_prevalence[-1] = 8800
+revised_weights_prevalence[adj+2] = 2000
+revised_weights_prevalence[-1] = 5000
+
+
+#### weights for balancing between historical and UNAIDS
+# revised_weights_prevalence = [
+#     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+#     for i in range(len_prevalence)
+# ]
+# revised_weights_prevalence[adj+2] = 1500
+# revised_weights_prevalence[-1] = 4000
+
+
+# #### more weights on historical data
+# revised_weights_prevalence = [
+#     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+#     for i in range(len_prevalence)
+# ]
+# revised_weights_prevalence[adj+2] = 500
+# revised_weights_prevalence[-1] = 1000
+
+
+# #### more weights on historical data
+# revised_weights_prevalence = [
+#     1 if i < len_prevalence - 20 else (i - (len_prevalence - 20) + 1) * 50
+#     for i in range(len_prevalence)
+# ]
+# revised_weights_prevalence[adj+2] = 500
+# revised_weights_prevalence[-5] = 1000
+# revised_weights_prevalence[-7] = 1000
+# revised_weights_prevalence[-8] = 1000
+
+
+
+
 # ## Modelling weights used in the model 
 ### weights for viral suppression levels 
 VLweights = [1 if i < len(VLSuppression) - 1 else 2500 for i in range(len(VLSuppression) )]
 VLweights[0] = 2500
 Treatmentweights = [1 if i < len(All_Treatments) - 1 else 2900 for i in range(len(All_Treatments) )] 
-Treatmentweights[0] = 2900
+Treatmentweights[0] = 2500
+### replace the weights across all points
+# Treatmentweights = [200]*len(All_Treatments)
+
 newinfectionsweights = [1 if i < len(newinfections_2023) - 1 else 4200 for i in range(len(newinfections_2023) )] 
 mortalityweights = [1200]*len(deaths_2023)
 mortalityweights[-1] = 4200
 
-weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [1 if i < len(All_Diagnoses) - 1 else 2400 for i in range(len(All_Diagnoses) )]  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
+weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [400]*len(All_Diagnoses)  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
+
+# ##### less weights across the data 
+# weights = [x / 20 for x in weights]
 
 
 # Print the current time indicating that the PyMC code is starting
@@ -343,7 +390,7 @@ with pm.Model() as model:
 
 
     ##### Declare tensor variables, according to correct years of DR prevalence. From beginning start_epideimc_year to 2022
-    tensor_a = (mcmc_curves[:,16])[0:(adj+23+1)]
+    tensor_a = (mcmc_curves[:,16])[0:(adj+24+1)]
     ##### Levels of pre-treatment DR in 2017
     tensor_b = (mcmc_curves[:,2]+mcmc_curves[:,4])[adj+17]
     ##### Levels of viral suppression from 2018 to 2021
@@ -356,24 +403,24 @@ with pm.Model() as model:
     diagnosis = mcmc_curves[:,3] + mcmc_curves[:,4] + treatments
 
     ##### Declare tensor variables, according to correct years of Diagnoses and treatments. From 2019 for treatments and 2010 for diagnoses - UNAIDS data
-    tensor_e = diagnosis[(adj+19):(adj+23+1)]
-    tensor_f = treatments[(adj+10):(adj+23+1)]
+    tensor_e = diagnosis[(adj+19):(adj+24+1)]
+    tensor_f = treatments[(adj+10):(adj+24+1)]
 
     ####declare tensor gradient for new infections in the modelling now
     modelled_cum_infs = mcmc_curves[:,14]
     modelled_infections =  modelled_cum_infs[1:] - modelled_cum_infs[:-1]
-    ### the calibration target was removed of 1 element at the start so no need to add 1 to adj+23
-    tensor_g = modelled_infections[0:(adj+23)]
+    ### the calibration target was removed of 1 element at the start so no need to add 1 to adj+24
+    tensor_g = modelled_infections[0:(adj+24)]
 
 
     ####declare tensor gradient for mortality of AIDS-related deaths in the modelling now 
     modelled_cum_dths = mcmc_curves[:,15]
     modelled_deaths = modelled_cum_dths[1:] - modelled_cum_dths[:-1]
-    #### Last 6 years of mortality estimates will be from 2018 (need to subtract 1- because of the tensor issue) up to 2023
-    tensor_h = modelled_deaths[(adj+18 - 1): (adj+23)]
+    #### Last 6 years of mortality estimates will be from 2019 (need to subtract 1- because of the tensor issue) up to 2023
+    tensor_h = modelled_deaths[(adj+19 - 1): (adj+24)]
     
     ##### Add the tensor for population calibration in the model 
-    tensor_i = (mcmc_curves[:,0]+mcmc_curves[:,16])[adj+22]
+    tensor_i = (mcmc_curves[:,0]+mcmc_curves[:,16])[adj+23]
 
     tensor_a_flattened = pt.flatten(tensor_a)
     tensor_b_flattened = pt.flatten(tensor_b)

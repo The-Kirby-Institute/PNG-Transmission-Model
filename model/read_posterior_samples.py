@@ -9,7 +9,7 @@ base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if running_mode == "Study_3":
     file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior_Chap3.xlsx')
 else:
-    file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior.xlsx')
+    file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior-recalibrate.xlsx')
 
 # Read the Excel file
 df = pd.read_excel(file_path, sheet_name='Sheet1')

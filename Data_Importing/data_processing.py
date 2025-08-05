@@ -89,7 +89,9 @@ dat_resistance = dat_resistance[3:]
 ##### New UNAIDS SPECTRUM updated in 2022 
 
 # xls = pd.ExcelFile('Data/Spectrum 2024/Extraction data_July22nd2024.xlsx')
-xls = pd.ExcelFile(os.path.join(base_path, 'Data','Spectrum 2024', 'Extraction data_July22nd2024.xlsx'))
+# xls = pd.ExcelFile(os.path.join(base_path, 'Data','Spectrum 2024', 'Extraction data_July22nd2024.xlsx'))
+### new update data from UNAIDS 2025
+xls = pd.ExcelFile(os.path.join(base_path, 'Data','Spectrum 2025', 'Extraction data_July10th2025.xlsx'))
 
 
 dat_estimates_2023 = pd.read_excel(xls, 'Estimates')
@@ -110,6 +112,9 @@ dat_estimates_2023 = dat_estimates_2023.transpose()
 dat_estimates_2023.columns = dat_estimates_2023.iloc[0] 
 dat_estimates_2023 = dat_estimates_2023[1:]
 
+
+## remove any whitespace and make numeric
+dat_estimates_2023 = dat_estimates_2023.applymap(lambda x: pd.to_numeric(str(x).replace(' ', ''), errors='coerce'))
 
 
 
@@ -138,6 +143,27 @@ dat_testntreat_2023 = dat_testntreat_2023[1:]
 
 
 ######## old data extraction from previous years of UNAIDS estimates
+
+
+
+dat_depraciated_2024 = pd.read_excel(xls, 'Estimates-2024')
+dat_depraciated_2024.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900},inplace=True)
+
+dat_depraciated_2024['Variable'] = dat_depraciated_2024['Variable'].fillna('Name')
+n = dat_depraciated_2024['Variable'][(dat_depraciated_2024['Variable'] == 'Name')].count()
+
+l1 = ['Missing']*n
+l2 = list( range(1,n+1))
+l2 =  [str(x) for x in l2]
+
+new_column_names = [i + j for i, j in zip(l1, l2)]
+
+dat_depraciated_2024.loc[dat_depraciated_2024['Variable'] == 'Name', 'Variable'] = new_column_names
+
+dat_depraciated_2024 = dat_depraciated_2024.transpose()
+dat_depraciated_2024.columns = dat_depraciated_2024.iloc[0] 
+dat_depraciated_2024 = dat_depraciated_2024[1:]
+
 
 dat_depraciated_2023 = pd.read_excel(xls, 'Estimates-2023')
 dat_depraciated_2023.rename(columns={'Unnamed: 0':'Variable','Unnamed: 1':1900},inplace=True)
@@ -185,8 +211,11 @@ dat_depraciated_2022 = dat_depraciated_2022[1:]
 
 
 ### Corrected population of children 0-14 years old 
-# xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls')
-xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls'))
+# # xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls')
+# xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.0014.TO_DS2_en_excel_v2_1594023.xls'))
+## new data from World Bank 2025
+xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2025_', 'API_SP.POP.0014.TO_DS2_en_excel_v2_21545.xls'))
+
 
 
 dat_population_14 = pd.read_excel(xls, 'Data')
@@ -199,16 +228,17 @@ dat_population_14.index = dat_population_14.index.map(int)
 
 
 ### Updated population dataset from 2023 - corrected 
-# xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls')
-xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls'))
+# # xls = pd.ExcelFile('Data/World Bank 2024_/API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls')
+# xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2024_', 'API_SP.POP.TOTL_DS2_en_excel_v2_1584408.xls'))
+## new data from World Bank 2025
+xls = pd.ExcelFile(os.path.join(base_path, 'data','World Bank 2025_', 'API_SP.POP.TOTL_DS2_en_excel_v2_38348.xls'))
 
-
-dat_population_2023 = pd.read_excel(xls, 'Data')
-dat_population_2023 = dat_population_2023.loc[dat_population_2023['Country Name'] == 'Papua New Guinea',]
-dat_population_2023 = dat_population_2023.transpose()
-dat_population_2023.columns = ['Total_Pop']
-dat_population_2023 = dat_population_2023.iloc[4:,]
-dat_population_2023.index = dat_population_2023.index.map(int)
+dat_population_total = pd.read_excel(xls, 'Data')
+dat_population_total = dat_population_total.loc[dat_population_total['Country Name'] == 'Papua New Guinea',]
+dat_population_total = dat_population_total.transpose()
+dat_population_total.columns = ['Total_Pop']
+dat_population_total = dat_population_total.iloc[4:,]
+dat_population_total.index = dat_population_total.index.map(int)
 
 
 
@@ -216,7 +246,7 @@ dat_population_2023.index = dat_population_2023.index.map(int)
 
 
 # Subtracting the Total_pop columns
-corrected_population = dat_population_2023['Total_Pop'] - dat_population_14['Total_Pop']
+corrected_population = dat_population_total['Total_Pop'] - dat_population_14['Total_Pop']
 
 corrected_population = pd.DataFrame({'Total_Pop': corrected_population})
 

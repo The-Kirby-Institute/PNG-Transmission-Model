@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import stats 
+import matplotlib.image as mpimg
 
 from model.Model_init import *
 from scipy.stats import gaussian_kde
@@ -159,11 +160,11 @@ higher_CI[higher_CI =="<500"] = 0
 
 
 scatter_points = scatter_points["Estimated adults (15+) living with HIV"].tolist()
-scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
+# scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
 lower_CI = lower_CI["Missing19"].tolist()
-lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
+# lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
 higher_CI = higher_CI["Missing20"].tolist()
-higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
+# higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
 
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
@@ -614,6 +615,27 @@ higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
 
 
 x_values_scatters = list(range(0,len(scatter_points)))
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2, c = "black",ecolor ="black",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2025")
+
+
+### Updated UNAIDS/ SPECTRUM estimates in 2024
+scatter_points = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Adults (15+) newly infected with HIV']]
+lower_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing31']]
+higher_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing32']]
+
+scatter_points[scatter_points =="<500"] = np.nan
+lower_CI[lower_CI =="<500"] = np.nan
+higher_CI[higher_CI =="<500"] = np.nan
+lower_CI[lower_CI =="<200"] = np.nan
+higher_CI[higher_CI =="<200"] = np.nan
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+
+
+
+x_values_scatters = list(range(0,len(scatter_points)))
 plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2, c = "#0F52BA",ecolor ="#0F52BA",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2024")
 
 
@@ -693,10 +715,31 @@ plt.show()
 
 setCorrectxAxis(actual_population,5,1)
 
-#### Updated UNAIDS/ SPECTRUM estimates in the 2022 
+#### Updated UNAIDS/ SPECTRUM estimates 
 scatter_points = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Adults (15-49) prevalence (%)']]
 lower_CI = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Missing3']]
 higher_CI = dat_estimates_2023.loc[dat_estimates_2023.index[dat_estimates_2023.index >= starting_epidemic_year],['Missing4']]
+
+scatter_points[scatter_points =="<0.1"] = np.nan
+lower_CI[lower_CI =="<0.1"] = np.nan
+higher_CI[higher_CI =="<0.1"] = np.nan
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+
+
+x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'Adults (15-49) prevalence',c="yellow")
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2,c = "black",ecolor ="black",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2025")
+########
+
+
+
+#### Updated UNAIDS/ SPECTRUM estimates outdated 2024 
+scatter_points = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Adults (15-49) prevalence (%)']]
+lower_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing3']]
+higher_CI = dat_depraciated_2024.loc[dat_depraciated_2024.index[dat_depraciated_2024.index >= starting_epidemic_year],['Missing4']]
 
 scatter_points[scatter_points =="<0.1"] = np.nan
 lower_CI[lower_CI =="<0.1"] = np.nan
@@ -714,7 +757,7 @@ plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_C
 
 scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
 x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'PNG National  estimate',c="#DC143C")
+plt.scatter(x_values_scatters,scatter_points, label = 'PNG Historical Data',c="#DC143C")
 
 
 
@@ -765,7 +808,7 @@ plt.grid(True)
 # plt.ylim(0,1.5)
 plt.yticks(np.arange(0, 2.2, 0.2))
 plt.legend(loc="upper left",prop={'size': 8})
-plt.savefig('output/figures/UNAIDS HIV prevalence to itself.png', dpi=500)
+plt.savefig('output/figures/UNAIDS_HIV_prevalence_to_itself.png', dpi=500)
 plt.show()
 
 
@@ -803,18 +846,18 @@ higher_CI[higher_CI =="<500"] = 0
 
 
 scatter_points = scatter_points["Estimated adults (15+) living with HIV"].tolist()
-scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
+# scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
 lower_CI = lower_CI["Missing19"].tolist()
-lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
+# lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
 higher_CI = higher_CI["Missing20"].tolist()
-higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
+# higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
 
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI)).tolist()
 higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points)).tolist()
 
 ### divide by the number of adults greater than 15 years old 
-df2 = corrected_population.loc[1990:]['Total_Pop'].tolist()
+df2 = corrected_population.loc[starting_epidemic_year:]['Total_Pop'].tolist()
 scatter_points = [a/b*100 for a,b in zip(scatter_points,df2)]
 lower_CI = [a/b*100 for a,b in zip(lower_CI,df2)]
 higher_CI = [a/b*100 for a,b in zip(higher_CI,df2)]
@@ -994,5 +1037,49 @@ plt.show()
 
 
 
+
+
+
+
+
+listB = [
+
+        "output/figures/HIV prevalence (with CIs)_adults15+_IQR_all(production).png",
+        "output/figures/Incidence in PNG (adults)_with IQR range_all(production).png",
+
+        "output/figures/Aware of HIV (adults)_IRQ all(production).png",
+
+        "output/figures/DR prevalence in Treatment-naive PLHIV_including IQR range_all(production).png",
+        # "output/figures/Viral Suppression inPNG_IQR range_all(production).png",
+        "output/figures/Third Goal UNAIDS(production).png",
+        "output/figures/on ART (adults)_IQR all(production).png"
+        ]
+
+img_list = [mpimg.imread(filename) for filename in listB]
+
+# Create a 4x3 grid for displaying the images:
+fig, axes = plt.subplots(2, 3, figsize=(20,10))
+
+for ax, img, title in zip(axes.ravel(), img_list, listB):
+    ax.imshow(img)
+    ax.axis('off')
+# Add vertical lines to separate the 3 columns
+for ax in axes[:, 0]:
+    ax.axvline(x=ax.get_xlim()[1], color='black', linewidth=3, linestyle='--')  # Line between first and second column
+for ax in axes[:, 1]:
+    ax.axvline(x=ax.get_xlim()[1], color='black', linewidth=3, linestyle='--')  # Line between second and third column
+
+# Add horizontal lines to separate the 2 rows
+for ax in axes[0, :]:
+    ax.axhline(y=ax.get_ylim()[0], color='black', linewidth=3, linestyle='--')  # Line between first and second row
+
+# Add text annotations for labels within each subplot
+labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+for i, ax in enumerate(axes.ravel()):
+    ax.text(0.5, 0.95, labels[i], transform=ax.transAxes, fontsize=16, ha='center')
+
+plt.tight_layout(h_pad = -0.5)  # Added vertical padding between subplots
+plt.savefig('output/figures/Combined_Display_Figure_1.png', dpi=500)  # Save the figure with high dpi
+plt.show()
 
 

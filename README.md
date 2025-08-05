@@ -27,6 +27,9 @@ PNG-TRANSMISSION-MODEL/
 1. Calibration.py - This code contains the Bayesian calibration procedure. If you just want to reproduce the results, there is no need to re-run this calibration. We provided an Excel sheet with 1,000 posterior samples for that purpose. This code is provided for transparency of the Bayesian procedures.
 2. Chap2-Figures.py - To generate the figures for calibration to data of Chapter 2 in the thesis. 
 3. folder `projects` contain the analyses for the relevant Chapters 2 and 3 for Quang's PhD thesis
+4. (IMPORTANT!) folder `output/figures` contains all the calibration graphs that provide overview of the HIV epidemic in Papua New Guinea
+
+![HIV prevalence in PNG](output/figures/Combined_Display_Figure_1.png)
 
 ## Data sources
 Several open source data were used to calibrate this model. 
@@ -56,3 +59,7 @@ This model in Python is designed, developed and maintained by [Quang Nguyen](htt
 Please contact Quang at qnguyen@kirby.unsw.edu.au for collaboration, queries or methodology questions/ concerns related to this model. We will respond promptly to your questions and concerns in future model updates. 
 ## License 
 This model is distributed under the GNU Affero General Public License v3.0 (AGPL-3.0). You are free to use, modify, and distribute the code, including for commercial purposes, provided that any derivative work is also made publicly available under the same license. For more details, see the LICENSE file.
+
+## Update in 2025
+In 2025, UNAIDS revised the modelling estimates in light of more surveillance data become available. UNAIDS modelling estimates were retrospectively updated since the start of the HIV epidemic. Our model is also updated and recalibrated to reflected this revision. 
+![Prevalence revised by UNAIDS](output/figures/UNAIDS_HIV_prevalence_to_itself.png)
