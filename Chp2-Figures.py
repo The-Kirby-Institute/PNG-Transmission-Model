@@ -523,6 +523,31 @@ lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
 higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
 plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "Reported prevalence of DR in ART-naive HIV people")
 
+
+### new ACT-UP project data for DR
+scatter_points = dat_ACTUP.loc[2021:2024,'% DR']*100
+lower_CI = dat_ACTUP.loc[2021:2024,'lower']*100
+higher_CI = dat_ACTUP.loc[2021:2024,'higher']*100
+
+# Create the full index 
+full_index = pd.RangeIndex(start=starting_epidemic_year, stop=2024+1)  
+scatter_points = scatter_points.reindex(full_index)
+lower_CI = lower_CI.reindex(full_index)
+higher_CI = higher_CI.reindex(full_index)
+
+scatter_points[scatter_points == "..."] = np.nan
+x_values_scatters = list(range(0,len(scatter_points)))
+
+plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0f}%'))
+plt.xticks(fontsize=10)
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "Reported prevalence of DR in ART-naive HIV people")
+
+
+
 plt.ylabel("Prevalence of transmitted DR")
 # plt.legend(loc="upper left",prop={'size': 10})
 plt.ylim(ymin=0,ymax=100)
