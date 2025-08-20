@@ -212,9 +212,14 @@ VLSuppression = combined_vf_df.loc[2018:2021,'Percent'].tolist()
 VLSuppression = [i/100* onTreatment_2023['Number of PLHIV on ART (Adults, ages 15+)'][2021] for i in VLSuppression]
 observed_data = observed_data + VLSuppression
 
-####### Given the pre-treatment DR prevalence of 15.7% in 2022, we will added the approximate number of pre-treatment Drug resistance
-DRtreatment_naive2022 = 15.7/100*(TotalPLHIV_2023['Estimated adults (15+) living with HIV'][2022] - onTreatment_2023['Number of PLHIV on ART (Adults, ages 15+)'][2022])
-observed_data = observed_data +[DRtreatment_naive2022]
+# ####### Given the pre-treatment DR prevalence of 15.7% in 2022, we will added the approximate number of pre-treatment Drug resistance
+# DRtreatment_naive2022 = 15.7/100*(TotalPLHIV_2023['Estimated adults (15+) living with HIV'][2022] - onTreatment_2023['Number of PLHIV on ART (Adults, ages 15+)'][2022])
+# observed_data = observed_data +[DRtreatment_naive2022]
+
+### new ACT-UP data on prevalence were being added here
+DRtransmitted = dat_ACTUP.loc[2021:2024,'% DR'].tolist()
+DRtransmitted = [i * (TotalPLHIV_2023['Estimated adults (15+) living with HIV'][2024] - onTreatment_2023['Number of PLHIV on ART (Adults, ages 15+)'][2024]) for i in DRtransmitted]
+observed_data = observed_data + DRtransmitted
 
 
 ###### Add new data from 2018 to 2021 - For Diagnoses info 
@@ -318,7 +323,7 @@ newinfectionsweights = [1 if i < len(newinfections_2023) - 1 else 4200 for i in 
 mortalityweights = [1200]*len(deaths_2023)
 mortalityweights[-1] = 4200
 
-weights = revised_weights_prevalence+ [1400] +  VLweights + [1400] +  [400]*len(All_Diagnoses)  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
+weights = revised_weights_prevalence+ [1400] +  VLweights + [1000]*len(DRtransmitted) +  [400]*len(All_Diagnoses)  + Treatmentweights + newinfectionsweights + mortalityweights + [2900]
 
 # ##### less weights across the data 
 # weights = [x / 20 for x in weights]
@@ -395,8 +400,11 @@ with pm.Model() as model:
     tensor_b = (mcmc_curves[:,2]+mcmc_curves[:,4])[adj+17]
     ##### Levels of viral suppression from 2018 to 2021
     tensor_c = (mcmc_curves[:,5]+mcmc_curves[:,6]+mcmc_curves[:,7]+mcmc_curves[:,8])[(adj+18):(adj+21+1)]
-    ##### Levels of pre-treatment DR in 2022
-    tensor_d = (mcmc_curves[:,2]+mcmc_curves[:,4])[adj+22]
+    # ##### Levels of pre-treatment DR in 2022
+    # tensor_d = (mcmc_curves[:,2]+mcmc_curves[:,4])[adj+22]
+    ### NEW ACT-UP data for DR from 2021 to 2024
+    tensor_d = (mcmc_curves[:,2]+mcmc_curves[:,4])[(adj+21):(adj+24+1)]
+    
 
     ##### Add data from MCMC model for comparing data points of Diagnoses and treatments
     treatments = mcmc_curves[:,5] + mcmc_curves[:,6] + mcmc_curves[:,7] + mcmc_curves[:,8] + mcmc_curves[:,9] + mcmc_curves[:,10] + mcmc_curves[:,11] + mcmc_curves[:,12] + mcmc_curves[:,13]

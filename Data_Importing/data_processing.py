@@ -251,6 +251,15 @@ corrected_population = dat_population_total['Total_Pop'] - dat_population_14['To
 corrected_population = pd.DataFrame({'Total_Pop': corrected_population})
 
 
+
+#### Obtain the ACT-UP dataset
+xls = pd.ExcelFile(os.path.join(base_path, 'data','ACT-UP', 'ACTUP DR numbers for HealthEcon_updated12Aug2025.xlsx'))
+
+dat_ACTUP = pd.read_excel(xls, 'Data')
+dat_ACTUP.rename(columns={'Unnamed: 0':'Variable'},inplace=True)
+dat_ACTUP = dat_ACTUP.set_index("Variable")
+
+
 def extract_values(value):
     if not isinstance(value, str):
         return np.nan, np.nan, np.nan
