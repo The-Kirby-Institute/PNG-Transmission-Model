@@ -11,6 +11,11 @@ if running_mode == "Study_3":
 else:
     file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior-recalibrate.xlsx')
 
+### the above exception to read in posteriors is only for PhD thesis - since I had two sets of posteriors for Chapter 2 and 3. For the final papers, there is no need to differentiate
+
+file_path = os.path.join(base_dir, 'data', 'posteriors', 'Bayesian_posterior-recalibrate.xlsx')
+
+
 # Read the Excel file
 df = pd.read_excel(file_path, sheet_name='Sheet1')
 

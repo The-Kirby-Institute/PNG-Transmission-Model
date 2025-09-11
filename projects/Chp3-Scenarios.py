@@ -191,11 +191,11 @@ higher_CI[higher_CI =="<500"] = 0
 
 
 scatter_points = scatter_points["Estimated adults (15+) living with HIV"].tolist()
-scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
+# scatter_points = [item for item in scatter_points if isinstance(item,int)] + [int(item.replace(" ",""))  for item in scatter_points if isinstance(item,str)]
 lower_CI = lower_CI["Missing19"].tolist()
-lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
+# lower_CI = [item for item in lower_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in lower_CI if isinstance(item,str)]
 higher_CI = higher_CI["Missing20"].tolist()
-higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
+# higher_CI = [item for item in higher_CI if isinstance(item,int)] + [int(item.replace(" ",""))  for item in higher_CI if isinstance(item,str)]
 
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
@@ -267,6 +267,30 @@ plt.ylim(ymin=0)  # this line
 plt.ylim(ymax=100)
 plt.ylabel('Viral Suppression levels (%)')
 
+
+
+### Updated UNAIDS/ SPECTRUM estimates in 2024
+scatter_points = dat_testntreat_2023.loc[dat_testntreat_2023.index[dat_testntreat_2023.index >= starting_epidemic_year],['Missing64']]
+lower_CI = dat_testntreat_2023.loc[dat_testntreat_2023.index[dat_testntreat_2023.index >= starting_epidemic_year],['Missing65']]
+higher_CI = dat_testntreat_2023.loc[dat_testntreat_2023.index[dat_testntreat_2023.index >= starting_epidemic_year],['Missing66']]
+
+scatter_points[scatter_points =="..."] = np.nan
+lower_CI[lower_CI =="..."] = np.nan
+higher_CI[higher_CI =="..."] = np.nan
+higher_CI[higher_CI ==">98"] = 98
+
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+
+
+
+x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'Adults (15+) newly infected with HIV',c="red")
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#0F52BA",ecolor ="#0F52BA",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates")
+
+
 plt.subplots_adjust(bottom=0.15)
 # plt.savefig('Bayesian Predictive Pictures/Viral Suppression inPNG_IQR range_all(production).png', dpi=500)
 plt.savefig(os.path.join(base_path, 'output', 'diagnostics', 'Chp3_diag', 'Baseline_Viral Suppression levels.png'), dpi=500)
@@ -312,8 +336,32 @@ lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
 higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
 plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "Reported prevalence of DR in ART-naive HIV people")
 
+
+### new ACT-UP project data for DR
+scatter_points = dat_ACTUP.loc[2021:2024,'% DR']*100
+lower_CI = dat_ACTUP.loc[2021:2024,'lower']*100
+higher_CI = dat_ACTUP.loc[2021:2024,'higher']*100
+
+# Create the full index 
+full_index = pd.RangeIndex(start=starting_epidemic_year, stop=2024+1)  
+scatter_points = scatter_points.reindex(full_index)
+lower_CI = lower_CI.reindex(full_index)
+higher_CI = higher_CI.reindex(full_index)
+
+scatter_points[scatter_points == "..."] = np.nan
+x_values_scatters = list(range(0,len(scatter_points)))
+
+plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0f}%'))
+plt.xticks(fontsize=10)
+
+#### calculation_lower_upper_limits
+lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
+higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "ACT-UP prevalence of DR in ART-naive HIV people")
+
+
 plt.ylabel("DR prevalence among Treatment-naive PLHIV (%)")
-plt.legend(loc="upper left",prop={'size': 10})
+# plt.legend(loc="upper left",prop={'size': 10})
 plt.ylim(ymin=0,ymax=100)
 plt.grid(True)
 # plt.savefig('Bayesian Predictive Pictures/DR prevalence in Treatment-naive PLHIV_including IQR range_all(production).png', dpi=500)
