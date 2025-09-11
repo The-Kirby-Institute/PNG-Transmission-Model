@@ -88,7 +88,6 @@ for i in range(len(theta_samples)):
     # Store the results
     sols.append(actual_population)
 
-writing_sols = sols
 
 
 
@@ -128,7 +127,7 @@ writing_sols = sols
 ##### All graphs for IQR analyses in the model 
 
 
-Total = np.array([sol.Total for sol in writing_sols])
+Total = np.array([sol.Total for sol in sols])
 median_Total = np.median(Total, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(Total, 25, axis=0)
@@ -211,7 +210,7 @@ plt.show()
 
 
 
-VL_percent = np.array([(sol["T"] * 100 / (sol["T"] + sol["F"])).fillna(0) for sol in writing_sols])
+VL_percent = np.array([(sol["T"] * 100 / (sol["T"] + sol["F"])).fillna(0) for sol in sols])
 median_Total = np.median(VL_percent, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(VL_percent, 25, axis=0)
@@ -304,7 +303,7 @@ plt.show()
 
 
 
-HIV_incident = np.array([np.gradient(sol.incidence ,tspan) for sol in writing_sols])
+HIV_incident = np.array([np.gradient(sol.incidence ,tspan) for sol in sols])
 median_Total = np.median(HIV_incident, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(HIV_incident, 25, axis=0)
@@ -359,7 +358,7 @@ plt.show()
 
 
 
-incidenceHIV = np.array([(np.gradient(sol.incidence ,tspan))/np.array(sol.S.tolist()) *1000 for sol in writing_sols])
+incidenceHIV = np.array([(np.gradient(sol.incidence ,tspan))/np.array(sol.S.tolist()) *1000 for sol in sols])
 median_Total = np.median(incidenceHIV, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(incidenceHIV, 25, axis=0)
@@ -412,7 +411,7 @@ plt.show()
 
 
 
-Deaths = np.array([np.gradient(sol.deaths,tspan) for sol in writing_sols])
+Deaths = np.array([np.gradient(sol.deaths,tspan) for sol in sols])
 median_Total = np.median(Deaths, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(Deaths, 25, axis=0)
@@ -493,7 +492,7 @@ plt.show()
 
 
 
-TransmitDR = np.array([(sol.D_DR+sol.I_DR)/(sol["D"] + sol["I"])*100 for sol in writing_sols])
+TransmitDR = np.array([(sol.D_DR+sol.I_DR)/(sol["D"] + sol["I"])*100 for sol in sols])
 median_Total = np.median(TransmitDR, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(TransmitDR, 25, axis=0)
@@ -544,7 +543,7 @@ plt.xticks(fontsize=10)
 #### calculation_lower_upper_limits
 lower_CI = np.subtract(scatter_points, np.asarray(lower_CI))
 higher_CI =  np.subtract(higher_CI,np.asarray(scatter_points))
-plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "Reported prevalence of DR in ART-naive HIV people")
+plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='o',  capsize=2, c = "#DC143C",ecolor ="#DC143C",elinewidth = 0.3, alpha=0.8, label = "ACT-UP prevalence of DR in ART-naive HIV people")
 
 
 
@@ -842,8 +841,8 @@ plt.show()
 
 ##### Prevalence of HIV among adults older than 15 years old 
 
-prevalenceHIV = np.array([(sol.Total)/(sol["Total"] + sol["S"] )*100 for sol in writing_sols])
-# prevalenceHIV = np.array([(sol.total_PLHIV)/(sol["total_PLHIV"] + sol["S"] )*100 for sol in writing_sols])
+prevalenceHIV = np.array([(sol.Total)/(sol["Total"] + sol["S"] )*100 for sol in sols])
+# prevalenceHIV = np.array([(sol.total_PLHIV)/(sol["total_PLHIV"] + sol["S"] )*100 for sol in sols])
 median_Total = np.median(prevalenceHIV, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(prevalenceHIV, 25, axis=0)
@@ -937,7 +936,7 @@ plt.show()
 
 
 
-onART = np.array([sol.TreatTotal for sol in writing_sols])
+onART = np.array([sol.TreatTotal for sol in sols])
 median_Total = np.median(onART, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(onART, 25, axis=0)
@@ -993,7 +992,7 @@ plt.show()
 
 
 
-Diagnosed = np.array([sol.Aware for sol in writing_sols])
+Diagnosed = np.array([sol.Aware for sol in sols])
 median_Total = np.median(Diagnosed, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(Diagnosed, 25, axis=0)
@@ -1032,7 +1031,7 @@ plt.show()
 
 
 
-Total_PNG = np.array([sol.Total+sol.S for sol in writing_sols])
+Total_PNG = np.array([sol.Total+sol.S for sol in sols])
 median_Total = np.median(Total_PNG, axis=0)
 # Calculate the first and third quartiles
 Q1 = np.percentile(Total_PNG, 25, axis=0)
