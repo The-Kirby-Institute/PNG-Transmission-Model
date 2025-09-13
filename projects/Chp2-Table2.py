@@ -220,9 +220,9 @@ for excel_file, excel_label in zip(excel_files, excel_files_labels):
     median_df = pd.concat([median_df, pd.DataFrame([median_row])], ignore_index=True)
 
 
-# output_file_path = os.path.join(result_path, "Final Table 2_Absolute.xlsx")
-# summary_df.to_excel(output_file_path, index=False)
-# summary_df
+output_file_path = os.path.join(result_path, "Chapter 2 - Table 2_since2020.xlsx")
+summary_df.to_excel(output_file_path, index=False)
+summary_df
 
 
 # Extract the "Reference" row
