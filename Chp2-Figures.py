@@ -176,12 +176,12 @@ plt.errorbar(x_values_scatters,scatter_points,yerr=np.c_[lower_CI, higher_CI].T,
 
 
 
-scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
-scatter_points = scatter_points["ACTUAL prevalence of HIV in reports"].tolist()
-scatter_points += [np.nan] * (len(actual_population.Total) - len(scatter_points))
-scatter_points = scatter_points*(actual_population.Total+actual_population.S)/100
-x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'PNG National Estimates',c="#DC143C")
+# scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
+# scatter_points = scatter_points["ACTUAL prevalence of HIV in reports"].tolist()
+# scatter_points += [np.nan] * (len(actual_population.Total) - len(scatter_points))
+# scatter_points = scatter_points*(actual_population.Total+actual_population.S)/100
+# x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'PNG National Estimates',c="#DC143C")
 
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
 plt.xticks(fontsize=10)
@@ -231,7 +231,7 @@ plt.fill_between(tspan, Q1, Q3, color='mediumseagreen', alpha=0.5)
 scatter_points = dat_testntreat.loc[dat_testntreat.index[dat_testntreat.index >= starting_epidemic_year],['Among people living with HIV, the percent with suppressed viral load']]
 scatter_points[scatter_points == "..."] = np.nan
 x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'Reported viral suppression',c="red")
+plt.scatter(x_values_scatters,scatter_points, label = 'Reported viral suppression',c="#0F52BA")
 
 
 
@@ -779,9 +779,9 @@ x_values_scatters = list(range(0,len(scatter_points)))
 plt.errorbar(x_values_scatters,scatter_points.to_numpy().flatten(),yerr=[lower_CI.to_numpy().flatten(), higher_CI.to_numpy().flatten()], fmt='-o',  capsize=2,c = "#0F52BA",ecolor ="#0F52BA",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates 2024")
 ########
 
-scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
-x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'PNG Historical Data',c="#DC143C")
+# scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
+# x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'PNG Historical Data',c="#DC143C")
 
 
 
@@ -892,9 +892,9 @@ x_values_scatters = list(range(0,len(scatter_points)))
 plt.errorbar(x_values_scatters,scatter_points,yerr=[lower_CI, higher_CI], fmt='o',  capsize=2,c = "#0F52BA",ecolor ="#0F52BA",elinewidth = 0.3, alpha=0.8, label = "UNAIDS/Spectrum Estimates")
 ########
 
-scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
-x_values_scatters = list(range(0,len(scatter_points)))
-plt.scatter(x_values_scatters,scatter_points, label = 'PNG National  estimate',c="#DC143C")
+# scatter_points = dat_estimates.loc[dat_estimates.index[dat_estimates.index >= starting_epidemic_year],['ACTUAL prevalence of HIV in reports']]
+# x_values_scatters = list(range(0,len(scatter_points)))
+# plt.scatter(x_values_scatters,scatter_points, label = 'PNG National  estimate',c="#DC143C")
 
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.1f}%'))
 plt.xticks(fontsize=10)
