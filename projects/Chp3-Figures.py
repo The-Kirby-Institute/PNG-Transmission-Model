@@ -680,6 +680,31 @@ plot_grouped_bar_chart(file_outout,"% of Total incidences","% HIV incidences ave
 plot_grouped_bar_chart(file_outout,"% of Total Costs","% Incremental Life-time Costs\n")
 
 
+#### Produce results of new infections in 2035 and 2050 across the selected scenarios for modelling
+extra_files = ["Routine_2_Baseline_WithDolutegravir_56_56.xlsx"
+                               ,"POC_2_Baseline_WithDolutegravir_56_56.xlsx"
+                               ,"POC_3_Baseline_WithDolutegravir_56_56.xlsx"
+                               ,"POC_4_Baseline_WithDolutegravir_56_56.xlsx"
+                               
+                               ,"POC_2_Timevarying_WithDolutegravir_56_56.xlsx"
+                               ,"POC_AcquiredDR_2_Baseline_WithDolutegravir_56_56.xlsx"
+                               ,"POC_AcquiredDR_2_Timevarying_WithDolutegravir_56_56.xlsx"]
+
+labels = ["Baseline",
+          "POC Current -No DR 20%",
+          "POC VL 40%",
+          "POC VL 60%",
+          "POC with 20% pre-treatment",
+          "POC with 20% post-treatment",
+          "POC with 20%  both pre- and post-treatment"]
+
+for file, label in zip(extra_files,labels):
+    print(f"Current evaluation results at {label}.")
+    comparator = extract_excel_files(os.path.join(base_path, folder_path, file), year_end_evaluation - starting_epidemic_year + 1)
+    new_infections = extract_data_from_dfs(comparator,"newly_infected")
+    print(f"Infections in 2035 is {compute_summary_statistics(new_infections, 2035-starting_epidemic_year)}.")
+    print(f"Infections in 2050 is {compute_summary_statistics(new_infections, 2050-starting_epidemic_year)}.")
+
 
 
 
