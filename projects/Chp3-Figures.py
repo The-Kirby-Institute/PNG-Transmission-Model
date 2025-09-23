@@ -777,6 +777,23 @@ def setCorrectxAxis_otherposition_maindiagram(frame, frequency_ticks =5,starting
     plt.xticks(fontsize=8, rotation=45)
 
 
+### functions to compute results based on index of the numpy arrays 
+def compute_summary_statistics(data, index, decimals=0, is_percentage=False):
+    # Compute the median
+    median_val = np.round( np.median(data, axis=0)[index],  decimals)
+    
+    # Compute the 2.5th and 97.5th percentiles
+    P2_5 = np.round( np.percentile(data, 2.5, axis=0)[index],  decimals)
+    P97_5 = np.round( np.percentile(data, 97.5, axis=0)[index],  decimals)
+
+    # Format the summary based on the is_percentage flag
+    if is_percentage:
+        summary = f"{median_val}% ({P2_5}%-{P97_5}%)"
+    else:
+        summary = f"{int(median_val):,} ({int(P2_5):,}-{int(P97_5):,})"
+    
+    return summary
+
 
 #### Costing based on extending the 2100
 
@@ -928,6 +945,19 @@ plt.savefig(os.path.join(base_path, 'output','Chp3-figures', 'Fourth_group.png')
 plt.show()
 
 
+### baseline scenario
+arr0 = np.array(treatment_results[0])
+
+# Print out results for line chart comparisons Figure 
+for idx in [10, 11, 12]: ## these are the last strategies S...
+    diff_array = np.array(treatment_results[idx]) - arr0
+    yr2035 = compute_summary_statistics(diff_array, index= 2035 - starting_epidemic_year)
+    print(f"Summary for treatment_results[{idx}] - treatment_results[0] at year 2035: {yr2035}")
+
+    ### revise the signs in 2050
+    diff_array = arr0 - np.array(treatment_results[idx]) 
+    yr2050 = compute_summary_statistics(diff_array, index= 2050 - starting_epidemic_year)
+    print(f"Summary for treatment_results[{idx}] - treatment_results[0] at year 2050: {yr2050}")
 
 
 
