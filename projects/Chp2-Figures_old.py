@@ -19,29 +19,6 @@ reference_year = 2000
 adj =  reference_year - starting_epidemic_year
 tspan = np.arange(0, small_df_size, 1)
 
-X_TICK_LABEL_SIZE = 18
-Y_TICK_LABEL_SIZE = 18
-TICK_MARK_LENGTH = 8
-TICK_MARK_WIDTH = 1.8
-
-
-def apply_tick_style():
-    ax = plt.gca()
-    ax.tick_params(axis='x', which='major', labelsize=X_TICK_LABEL_SIZE,
-                   length=TICK_MARK_LENGTH, width=TICK_MARK_WIDTH)
-    ax.tick_params(axis='y', which='major', labelsize=Y_TICK_LABEL_SIZE,
-                   length=TICK_MARK_LENGTH, width=TICK_MARK_WIDTH)
-
-
-def save_individual_figure(filename):
-    plt.subplots_adjust(bottom=0.22)
-    plt.savefig(
-        os.path.join(base_path, 'output', 'Chp2-figures', filename),
-        dpi=500,
-        bbox_inches='tight',
-        pad_inches=0.12
-    )
-
 
 # Function to extract F_W1_median from an Excel file
 def extract_excel_files(excel_file, small_df_size):
@@ -56,7 +33,7 @@ def setCorrectxAxis(frequency_ticks =5,starting_position=0):
     new_x_ticks = list(range(starting_epidemic_year,starting_epidemic_year+small_df_size ))
     plt.xticks(default_x_ticks,new_x_ticks)
     plt.xticks(np.append(np.arange(starting_position, small_df_size+1, frequency_ticks),default_x_ticks[-1]))
-    plt.xticks(fontsize=X_TICK_LABEL_SIZE, rotation=45)
+    plt.xticks(fontsize=8, rotation=45)
 
 folder_path = "output/Chp2_scenarios"
 img_path = "output/Chp2-figures"
@@ -157,9 +134,10 @@ plt.ylim(ymin=0)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('Viral Failures cases_withDolutegravir_NoDR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'Viral Failures cases_withDolutegravir_NoDR.png'), dpi=500)
 plt.show()
 
 
@@ -186,9 +164,10 @@ plt.ylim(ymin=0, ymax = 6000)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of ADR_withDolutegravir_NoDR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of ADR_withDolutegravir_NoDR.png'), dpi=500)
 plt.show()
 
 
@@ -209,9 +188,10 @@ plt.ylim(ymin=0,ymax = 3000)
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of TDR_withDolutegravir_NoDR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of TDR_withDolutegravir_NoDR.png'), dpi=500)
 plt.show()
 
 
@@ -232,12 +212,13 @@ plt.plot (dataframe_newDFfailure['Scenario_1'], c = "black")
 
 
 plt.xlim(xmin=adj+10)
-plt.ylabel('New Treatment Failure (Annual)',fontsize=13)
+plt.ylabel('New Treatment Failure (Annual)')
 plt.grid(True)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('NewViralLoad_DFfailure_withDolutegravir_NoDR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'NewViralLoad_DFfailure_withDolutegravir_NoDR.png'), dpi=500)
 plt.show()
 
 
@@ -284,9 +265,10 @@ plt.ylim(ymin=0)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('Viral Failures cases_withDolutegravir_with DR testing.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'Viral Failures cases_withDolutegravir_with DR testing.png'), dpi=500)
 plt.show()
 
 
@@ -322,9 +304,10 @@ plt.ylim(ymin=0 , ymax =6000)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of ADR_withDolutegravir_with DR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of ADR_withDolutegravir_with DR.png'), dpi=500)
 plt.show()
 
 
@@ -345,9 +328,10 @@ plt.ylim(ymin=0, ymax=3000)
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of TDR_withDolutegravir_with DR.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of TDR_withDolutegravir_with DR.png'), dpi=500)
 
 plt.show()
 
@@ -375,9 +359,10 @@ plt.plot (dataframe_newDFfailure['Scenario_5'], label="-Central lab VL testing",
 plt.xlim(xmin=adj+10)
 plt.grid(True)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('NewViralLoad_DFfailure_with DR and access levels.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'NewViralLoad_DFfailure_with DR and access levels.png'), dpi=500)
 
 plt.show()
 
@@ -433,9 +418,10 @@ plt.ylim(ymin=0)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('Viral Failures cases_withDolutegravir_with ACT-UP levels+DR test.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'Viral Failures cases_withDolutegravir_with ACT-UP levels+DR test.png'), dpi=500)
 plt.show()
 
 
@@ -464,9 +450,10 @@ plt.ylim(ymin=0, ymax=6000)  # this line
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of ADR_withDolutegravir_with  ACT-UP levels+DR test.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of ADR_withDolutegravir_with  ACT-UP levels+DR test.png'), dpi=500)
 plt.show()
 
 
@@ -493,9 +480,10 @@ plt.ylim(ymin=0,ymax=3000)
 plt.grid(True)
 plt.xlim(xmin = adj+10)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('VF of TDR_withDolutegravir_with ACT-UP levels+DR test.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'VF of TDR_withDolutegravir_with ACT-UP levels+DR test.png'), dpi=500)
 plt.show()
 
 
@@ -516,9 +504,10 @@ plt.plot (dataframe_newDFfailure['Scenario_5'], label="-Central lab VL testing",
 plt.xlim(xmin=adj+10)
 plt.grid(True)
 
-apply_tick_style()
+plt.xticks(fontsize=10)
+plt.yticks(fontsize=12)
 plt.gca().yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{x:,.0f}'))
-save_individual_figure('NewViralLoad_DFfailure_ACTUP level +DR tests.png')
+plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'NewViralLoad_DFfailure_ACTUP level +DR tests.png'), dpi=500)
 plt.show()
 
 
@@ -559,12 +548,13 @@ for ax in axes[:, 1]:
     ax.axvline(x=ax.get_xlim()[1], color='black', linewidth=3, linestyle='--')  # Line between second and third column
 
 # Add text annotations for column labels
-fig.text(0.16, 0.035, '(a)', fontsize=20, ha='center')  
-fig.text(0.5, 0.035, '(b)', fontsize=20, ha='center')   
-fig.text(0.83, 0.035, '(c)', fontsize=20, ha='center')  
+fig.text(0.16, 0.01, '(a)', fontsize=18, ha='center')  
+fig.text(0.5, 0.01, '(b)', fontsize=18, ha='center')   
+fig.text(0.83, 0.01, '(c)', fontsize=18, ha='center')  
 
 
 plt.tight_layout(h_pad = -8)  # Added vertical padding between subplots
 plt.savefig(os.path.join(base_path, 'output','Chp2-figures', 'All scenarios figure 3_production_revised.png'), dpi=500)
 
 plt.show()
+
