@@ -612,19 +612,32 @@ def plot_grouped_bar_chart(file_path, value,yaxistitle, bar_width=0.2, figsize=(
         x_positions = x[group_starts[i]:group_starts[i] + items_per_group]
 
         for j in range(items_per_group):
+            median = group_data.iloc[j]['Median']
             ax.bar(
                 x_positions[j],  # Individual x position
-                group_data.iloc[j]['Median'],
+                median,
                 width=bar_width,
                 yerr=np.array([
-                    [group_data.iloc[j]['Median'] - group_data.iloc[j]['Lower_CI']], 
-                    [group_data.iloc[j]['Upper_CI'] - group_data.iloc[j]['Median']]
+                    [median - group_data.iloc[j]['Lower_CI']],
+                    [group_data.iloc[j]['Upper_CI'] - median]
                 ]),
                 capsize=5,
                 alpha=opacities[j],  # Unique alpha for each bar
                 color=group_colors[group],  # Assign color based on group
                 label=group if j == 0 else "",
                 error_kw={'elinewidth': 0.8}
+            )
+            ax.annotate(
+                f'{median:.1f}%',
+                xy=(x_positions[j], median),
+                xytext=(0, 3 if median >= 0 else -3),
+                textcoords='offset points',
+                ha='center',
+                va='bottom' if median >= 0 else 'top',
+                fontsize=9,
+                fontweight='semibold',
+                zorder=5,
+                bbox={'facecolor': 'white', 'edgecolor': 'none', 'alpha': 0.7, 'pad': 0.5}
             )
     ax.set_ylabel(yaxistitle, fontsize=14)
     ax.set_xticks(np.arange(len(group_labels)) + (items_per_group - 1) * bar_width / 2)
@@ -975,10 +988,19 @@ img_list = [mpimg.imread(os.path.join(base_path,'output/Chp3-figures',filename))
 
 # Create a 4x3 grid for displaying the images:
 fig, axes = plt.subplots(2, 2, figsize=(15,13))
+panel_labels = ['(a)', '(b)', '(c)', '(d)']
 
-for ax, img, title in zip(axes.ravel(), img_list, listB):
+for ax, img, title, panel_label in zip(axes.ravel(), img_list, listB, panel_labels):
     ax.imshow(img)
     ax.axis('off')
+    ax.text(
+        0.015, 0.985, panel_label,
+        transform=ax.transAxes,
+        ha='left', va='top',
+        fontsize=18, 
+        # fontweight='bold',
+        zorder=10
+    )
 
 plt.tight_layout(h_pad = -8)  # Added vertical padding between subplots
 # plt.savefig('CEA_results/Actual Linecharts Figure 3/Figure 2_Impact of time.png', dpi=500,bbox_inches='tight')  # Save the figure with high dpi
